@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <link rel="stylesheet" href="./css/todos.css" />
+    <!-- add tailwindcss for styling -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="./js/localStorage.js" type="module"></script>
+    <script src="./js/todos.js" type="module"></script>
+  </head>
+  <body class="flex flex-col h-screen">
+    <header class="bg-blue-600 text-white px-4 py-2">MTECH ToDo App</header>
+    <main class="flex-grow p-4">
+      <div class="max-w-list">
+        <div class="flex border rounded-md overflow-hidden">
+          <input
+            type="text"
+            id="task-input"
+            class="w-4 flex-grow outline-none pl-2"
+          />
+          <button
+            id="add-task-button"
+            class="whitespace-nowrap text-xs bg-blue-600 text-white px-4 py-2"
+          >
+            +
+          </button>
+        </div>
+        <div>
+          <ul id="task-list" class="mt-4"></ul>
+        </div>
+      </div>
+    </main>
+    <footer class="px-4 py-2 bg-blue-600 text-white text-xs">
+      &copy; Trevor Michaelis
+    </footer>
+  </body>
+</html>
