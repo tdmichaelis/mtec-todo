@@ -1,0 +1,20 @@
+{
+  "type": "module",
+  "name": "mtec-todo",
+  "version": "0.0.0",
+  "description": "Classroom ToDo App Example",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tdmichaelis/mtec-todo.git"
+  },
+  "author": "Trevor Michaelis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tdmichaelis/mtec-todo/issues"
+  },
+  "homepage": "https://github.com/tdmichaelis/mtec-todo#readme"
+}
