@@ -1,33 +1,22 @@
 import {
+  onDragDrop,
+  onDragOver,
+  onDragStart,
+  onDrop,
+  onDropDelete,
+} from "./draggable.js";
+import {
   getAllTaskFromLocalStorage,
-  removeLocalStorage,
   updateLocalStorage,
 } from "./localStorage.js";
+import { Task } from "./task.js";
 const trash = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7h16" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /><path d="M10 12l4 4m0 -4l-4 4" /></svg>`;
-class Task {
-  constructor(task, id, completed) {
-    this.id = id || Math.floor(Math.random() * 1000000);
-    this.text = task;
-    this.completed = !!completed;
-  }
-  complete() {
-    this.completed = true;
-  }
-  uncomplete() {
-    this.completed = false;
-  }
-  delete() {
-    document.querySelector(`li[data-id="${this.id}"]`).remove();
-    removeLocalStorage(this.id);
-  }
-}
 
 function addTaskToList(task) {
   if (typeof task === "string") {
     task = new Task(task);
-  } else {
-    task = task;
   }
+
   const existingTask = document.querySelector(`li[data-id="${task.id}"]`);
   if (existingTask) {
     return;
@@ -36,6 +25,7 @@ function addTaskToList(task) {
   var taskItem = document.createElement("li");
   // add task id
   taskItem.dataset.id = task.id;
+  taskItem.draggable = true;
   // add tailwind classes
   taskItem.className =
     "flex justify-between items-center bg-white text-gray-800 my-2";
@@ -45,10 +35,7 @@ function addTaskToList(task) {
   checkbox.className = "task-checkbox";
   checkbox.checked = task.completed;
   checkbox.addEventListener("change", function (ev) {
-    if (ev.target.checked) task.complete();
-    else task.uncomplete();
-    console.log(task);
-    updateLocalStorage(task.id, task);
+    task.setComplete(ev.target.checked);
   });
   taskItem.appendChild(checkbox);
   // add task
@@ -66,6 +53,9 @@ function addTaskToList(task) {
   // add task item to the list
   taskList.appendChild(taskItem);
   updateLocalStorage(task.id, task);
+
+  taskItem.addEventListener("dragstart", onDragStart);
+  taskItem.addEventListener("dragend", onDragDrop);
 }
 
 function addTask() {
@@ -81,6 +71,11 @@ function loadContent() {
   tasks.forEach((task) => {
     const newTask = new Task(task.text, task.id, task.completed);
     addTaskToList(newTask);
+  });
+  const deleteZones = document.querySelectorAll(".delete-dropzone");
+  deleteZones.forEach((dropzone) => {
+    dropzone.addEventListener("dragover", onDragOver);
+    dropzone.addEventListener("drop", onDropDelete);
   });
 }
 
