@@ -1,7 +1,6 @@
 import { removeLocalStorage } from "./localStorage.js";
 
 export function onDragStart(event) {
-  console.log("drag start", event.target.dataset.id);
   event.dataTransfer.setData("text/plain", event.target.dataset.id);
   event.currentTarget.style.backgroundColor = "yellow";
 }
@@ -15,21 +14,9 @@ export function onDragOver(event) {
   event.currentTarget.style.backgroundColor = "lightblue";
 }
 
-export function onDrop(event) {
-  event.preventDefault();
-  const dropzone = event.target;
-  console.log(dropzone);
-  // add the task to the dropzone
-  const taskId = event.dataTransfer.getData("text/plain");
-  console.log(taskId);
-  const task = document.querySelector(`li[data-id="${taskId}"]`);
-  dropzone.appendChild(task);
-}
-
 export function onDropDelete(event) {
   event.preventDefault();
   const dropzone = event.target;
-  console.log(dropzone);
   // add the task to the dropzone
   const taskId = event.dataTransfer.getData("text/plain");
   console.log(taskId);
